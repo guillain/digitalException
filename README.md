@@ -7,8 +7,8 @@ Cisco Spark integration with SigFox button
 * => When the Button is pushed Cisco Spark space is created and people are added
 
 ## Based on
-* [sparky](https://github.com/flint-bot/sparky) (nodejs + express)
-* [bt.tn](https://my.bt.tn) (can also provide simulator)
+* [Flask](http://flask.pocoo.org/) (Python)
+* [bt.tn](https://my.bt.tn) (can provide simulator or physical button)
 
 ## PreRequisites
 Configuration is provided for Apache and WSGI server.
