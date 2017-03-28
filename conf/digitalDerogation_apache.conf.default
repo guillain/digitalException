@@ -1,0 +1,32 @@
+# Target: apache configuration file
+# Version: 0.1
+# Date: 2017/02/04
+# Author: Guillain (guillain@gmail.com)
+# Copyright 2017 GPL - Guillain
+
+<VirtualHost *:80>
+    ServerName ServerName@ServerName.com
+    ServerAdmin admin@ServerName.com
+    ServerSignature Off
+
+    ErrorLog /var/www/digitalDerogation/log/error.log
+    CustomLog /var/www/digitalDerogation/log/access.log combined
+    LogLevel info
+
+    AddHandler wsgi-script .wsg
+
+    WSGIDaemonProcess digitalDerogation user=www-data group=www-data threads=10 display-name=%{GROUP}
+    WSGIProcessGroup digitalDerogation
+    WSGIScriptAlias / /var/www/digitalDerogation/digitalDerogation.wsgi
+    WSGIScriptReloading On
+
+    <Directory /var/www/digitalDerogation>
+        WSGIProcessGroup digitalDerogation
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+	Require all granted
+    </Directory>
+</VirtualHost>
+
+
