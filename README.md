@@ -12,6 +12,7 @@ If 'escalation' word is enter an escalation process is launch and additionnal me
 ## Based on
 * [Flask](http://flask.pocoo.org/) (Python)
 * [bt.tn](https://my.bt.tn) (can provide simulator or physical button)
+* [Cisco Spark](https://web.ciscospark.com) (for free)
 
 ## PreRequisites
 Configuration is provided for Apache and WSGI server.
