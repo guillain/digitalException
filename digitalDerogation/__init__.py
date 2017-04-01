@@ -25,7 +25,8 @@ def bttn():
     roommsg = "New " + roomname + " created \n"
     for k, v in bttn.items():
         roommsg += "* " + str(k) + " : " + str(v) + "\n"
-    roommsg += '\nTips: ' + app.config['SPARK_MSG_TIPS']
+    roommsg += '\n_Tips_: \n' + app.config['SPARK_MSG_TIPS'] + '\n'
+    roommsg += '\n**Remaing task**: \n' + app.config['SPARK_MSG_ASK'] + '\n'
 
     wEvent('bttn',roomname,"Button s data get",bttn)
 
