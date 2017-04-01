@@ -226,6 +226,16 @@ def post_message(at, roomId, text, toPersonId='', toPersonEmail=''):
     resp = requests.post(url=_url('/messages'), json=payload, headers=headers)
     return code(resp)
 
+def post_markdown(at, roomId, text, toPersonId='', toPersonEmail=''):
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
+    payload = {'roomId': roomId, 'markdown': text}
+    if toPersonId:
+        payload['toPersonId'] = toPersonId
+    if toPersonEmail:
+        payload['toPersonEmail'] = toPersonEmail
+    resp = requests.post(url=_url('/messages'), json=payload, headers=headers)
+    return code(resp)
+
 def post_file(at, roomId, url, text='', toPersonId='', toPersonEmail=''):
     headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     payload = {'roomId': roomId, 'files': [url]}

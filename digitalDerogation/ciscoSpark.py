@@ -6,7 +6,7 @@
 
 from flask import Flask, request, jsonify
 from tools import exeReq, wEvent
-from pyCiscoSpark import post_room, post_message, post_roommembership, post_webhook, get_message
+from pyCiscoSpark import post_room, post_markdown, post_roommembership, post_webhook, get_message
 
 # Conf and create app
 app = Flask(__name__)
@@ -17,12 +17,18 @@ def sparkInit(roomname,roommsg):
     # Cisco Spark room creation
     try:
         room = post_room(app.config['SPARK_ACCESS_TOKEN'],roomname)
-        wEvent('sparkInit',roomname,"Room created",room)
+        wEvent('sparkInit',room['id'],"Room created",room)
     except Exception as e:
         wEvent('sparkInit',roomname,"Issue during room creation",e)
         return 'KO'
 
     # Cisco Spark room membership
+    try:
+        membership = post_roommembership(app.config['SPARK_ACCESS_TOKEN'],room['id'],app.config['APP_MAIL'],True)
+        wEvent('sparkInit',room['id'],"Admin membership added",membership)
+    except Exception as e:
+        wEvent('sparkInit',room['id'],"Issue during admin membership add",e)
+        return 'KO'
     try:
         membership = post_roommembership(app.config['SPARK_ACCESS_TOKEN'],room['id'],app.config['SPARK_ROOM_MAIL'],False)
         wEvent('sparkInit',room['id'],"Membership added",membership)
@@ -40,7 +46,7 @@ def sparkInit(roomname,roommsg):
 
     # Cisco Spark room message post
     try:
-        msg = post_message(app.config['SPARK_ACCESS_TOKEN'],room['id'],roommsg)
+        msg = post_markdown(app.config['SPARK_ACCESS_TOKEN'],room['id'],roommsg)
         wEvent('sparkInit',room['id'],"Message posted",msg)
     except Exception as e:
         wEvent('sparkInit',room['id'],"Issue during post message",e)
@@ -58,7 +64,7 @@ def sparkMsg(roomid,msgid):
         return 'KO'
 
     # Action according to the msg
-    msgtxt = str(msg.get('text'))
+    msgtxt = msg.get('text')
     if (msgtxt == 'escalation'):
         return sparkEscalation(roomid)
 
@@ -74,7 +80,7 @@ def sparkEscalation(roomid):
 
     # Cisco Spark room escalation message post
     try:
-        msg = post_message(app.config['SPARK_ACCESS_TOKEN'],roomid,app.config['SPARK_MSG_ESCLATION'])
+        msg = post_markdown(app.config['SPARK_ACCESS_TOKEN'],roomid,app.config['SPARK_MSG_ESCLATION'])
         wEvent('sparkEscalation',roomid,"Escalation message posted",msg)
     except Exception as e:
         wEvent('sparkEscalation',roomid,"Issue during post escalation message",e)
