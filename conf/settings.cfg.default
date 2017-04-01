@@ -4,6 +4,8 @@
 # Author: Guillain (guillain@gmail.com)
 # Copyright 2017 GPL - Guillain
 
+APP_MAIL=''
+
 # MySQL conf
 MYSQL_USER='root'
 MYSQL_PASSWORD=''

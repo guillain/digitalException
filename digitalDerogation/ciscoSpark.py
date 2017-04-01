@@ -6,7 +6,7 @@
 
 from flask import Flask, request, jsonify
 from tools import exeReq, wEvent
-from pyCiscoSpark import post_room, post_markdown, post_roommembership, post_webhook, get_message
+from pyCiscoSpark import post_room, post_markdown, post_roommembership, post_webhook, get_message, del_room
 
 # Conf and create app
 app = Flask(__name__)
@@ -65,9 +65,25 @@ def sparkMsg(roomid,msgid):
 
     # Action according to the msg
     msgtxt = msg.get('text')
-    if (msgtxt == 'escalation'):
+    msgmd = msg.get('markdown')
+
+    # Escalation request
+    if (msgtxt == 'escalation') or (msgmd == 'escalation'):
         return sparkEscalation(roomid)
 
+    # Close request
+    if (msgtxt == 'close') or (msgmd == 'close'):
+        return sparkClose(roomid)
+
+    return 'OK'
+
+def sparkClose(roomid):
+    # Cisco Spark room closure
+    try:
+        room = del_room(app.config['SPARK_ACCESS_TOKEN'],roomid)
+        wEvent('sparkClose',roomid,"Room deleted",room)
+    except Exception as e:
+        wEvent('sparkClose',roomid,"Issue during room delete",e)
     return 'OK'
 
 def sparkEscalation(roomid):
