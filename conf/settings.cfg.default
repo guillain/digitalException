@@ -1,4 +1,4 @@
-# Target: digitalDerogation configuration
+# Target: digitalException configuration
 # Version: 0.1
 # Date: 2017/01/18
 # Author: Guillain (guillain@gmail.com)
@@ -10,11 +10,11 @@ APP_MAIL=''
 MYSQL_USER='root'
 MYSQL_PASSWORD=''
 MYSQL_HOST='localhost'
-MYSQL_DB='digitalDerogation'
+MYSQL_DB='digitalException'
 
 # Cisco Spark APP conf
 SPARK_ROOM_MAIL=''
-SPARK_ROOM_NAME='Digital Derogation'
+SPARK_ROOM_NAME='Digital Exception'
 SPARK_ROOM_MAIL_ESCALATION=''
 SPARK_ACCESS_TOKEN=''
 SPARK_WEBHOOK=''
@@ -24,13 +24,13 @@ SPARK_MSG_ESCLATION='**Escalation ongoing**'
 SPARK_MSG_TIPS='* Remember to enter **escalation** to launch the escalation process \n* When the job is done, remember to close the room with **close** keyword'
 SPARK_MSG_ASK='* Take a picture of the defaulty piece (you can use your webcame to catpure it) \n* Describe the issue \n'
 
-# digitalDerogation conf
+# digitalException conf
 DEBUG=True
 TESTING=False
 #PROPAGATE_EXCEPTIONS
 #PRESERVE_CONTEXT_ON_EXCEPTION
 SECRET_KEY=''
-SESSION_COOKIE_NAME='digitalDelegetion'
+SESSION_COOKIE_NAME='digitalException'
 #SESSION_COOKIE_DOMAIN=''
 #SESSION_COOKIE_PATH
 #SESSION_COOKIE_HTTPONLY
@@ -41,7 +41,7 @@ SESSION_COOKIE_NAME='digitalDelegetion'
 #LOGGER_NAME
 #LOGGER_HANDLER_POLICY
 #SERVER_NAME=''
-#APPLICATION_ROOT='/var/www/digitalDerogation'
+#APPLICATION_ROOT='/var/www/digitalException'
 #MAX_CONTENT_LENGTH
 #SEND_FILE_MAX_AGE_DEFAULT
 #TRAP_HTTP_EXCEPTIONS

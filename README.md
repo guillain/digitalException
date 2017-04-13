@@ -1,4 +1,4 @@
-# digitalDelegation
+# digitalException
 Cisco Spark integration with SigFox button
 
 ## What is it?
@@ -28,29 +28,29 @@ But you can also get only the python with another web server, container...
 
 ### Clone localy
 ```bash
-git clone https://github.com/guillain/digitalDerogation.git
-cd digitalDerogation
+git clone https://github.com/guillain/digitalException.git
+cd digitalException
 ```
 
 ### Configure and set apache configuration
 * For unsecure http (80)
 ```bash
-cp conf/digitalDerogation_apache.conf.default conf/digitalDerogation_apache.conf
-vi conf/digitalDerogation_apache.conf 
-ln -s /var/www/digitalDerogation/conf/digitalDerogation_apache.conf /etc/apache2/conf-enabled/digitalDerogation_apache.conf
+cp conf/digitalException_apache.conf.default conf/digitalException_apache.conf
+vi conf/digitalException_apache.conf 
+ln -s /var/www/digitalException/conf/digitalException_apache.conf /etc/apache2/conf-enabled/digitalException_apache.conf
 ```
 
 * For secure http (443)
 ```bash
-cp conf/digitalDerogation_apache-secure.conf.default conf/digitalDerogation_apache_secure.conf
-vi conf/digitalDerogation_apache-secure.conf 
-ln -s /var/www/digitalDerogation/conf/digitalDerogation_apache-secure.conf /etc/apache2/conf-enabled/digitalDerogation_apache-secure.conf
+cp conf/digitalException_apache-secure.conf.default conf/digitalException_apache_secure.conf
+vi conf/digitalException_apache-secure.conf 
+ln -s /var/www/digitalException/conf/digitalException_apache-secure.conf /etc/apache2/conf-enabled/digitalException_apache-secure.conf
 ```
 
 ### Configure the database
 ```bash
-mysqladmin create digitalDerogation -utoto -p
-mysql digitalDerogation -utoto -p < conf/mysql.sql
+mysqladmin create digitalException -utoto -p
+mysql digitalException -utoto -p < conf/mysql.sql
 ```
 
 ### Config your [bt.tn](https://my.bt.tn/home)

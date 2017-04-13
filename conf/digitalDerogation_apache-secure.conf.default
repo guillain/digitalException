@@ -9,19 +9,18 @@
     ServerAdmin admin@ServerName.com
     ServerSignature Off
 
-    ErrorLog /var/www/digitalDerogation/log/secure.error.log
-    CustomLog /var/www/digitalDerogation/log/secure.access.log combined
+    ErrorLog /var/www/digitalException/log/secure.error.log
+    CustomLog /var/www/digitalException/log/secure.access.log combined
     LogLevel info
 
     AddHandler wsgi-script .wsg
 
-    #WSGIDaemonProcess digitalderogation user=www-data group=www-data threads=10 display-name=%{GROUP}
-    WSGIProcessGroup digitalDerogation
-    WSGIScriptAlias / /var/www/digitalDerogation/digitalDerogation.wsgi
+    WSGIProcessGroup digitalException
+    WSGIScriptAlias / /var/www/digitalException/digitalException.wsgi
     WSGIScriptReloading On
 
-    <Directory /var/www/digitalDerogation>
-        WSGIProcessGroup digitalDerogation
+    <Directory /var/www/digitalException>
+        WSGIProcessGroup digitalException
         WSGIApplicationGroup %{GLOBAL}
         Order deny,allow
         Allow from all

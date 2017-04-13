@@ -9,12 +9,12 @@
 HOST=0.0.0.0
 PORT=8084
 
-export ROOT_DIR='/var/www/digitalDerogation'
+export ROOT_DIR='/var/www/digitalException'
 export CONF_DIR="${ROOT_DIR}/conf"
 export LOG_DIR="${ROOT_DIR}/log"
 
 
-export FLASK_APP='digitalDerogation'
+export FLASK_APP='digitalException'
 export FLASK_DEBUG=1
 export FLASK_SETTING="${CONF_DIR}/settings.cfg"
 

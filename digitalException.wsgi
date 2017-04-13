@@ -9,9 +9,9 @@ import os
 import sys
 import logging
 
-sys.path.insert(0, '/var/www/digitalDerogation')
-os.environ['FLASK_SETTING'] = '/var/www/digitalDerogation/conf/settings.cfg'
+sys.path.insert(0, '/var/www/digitalException')
+os.environ['FLASK_SETTING'] = '/var/www/digitalException/conf/settings.cfg'
 
 logging.basicConfig(stream=sys.stderr)
 
-from digitalDerogation import app as application
+from digitalException import app as application
