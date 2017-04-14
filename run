@@ -3,8 +3,7 @@
 # Target: main script to run the app
 # Version: 0.1
 # Date: 2017/01/02
-# Author: Guillain SANCHEZ
-
+# Author: Guillain (guillain@gmail.com)
 
 HOST=0.0.0.0
 PORT=8084

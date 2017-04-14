@@ -32,7 +32,15 @@ git clone https://github.com/guillain/digitalException.git
 cd digitalException
 ```
 
+### Install the Python requirements
+```bash
+pip install -r requirements.txt
+```
+
 ### Configure and set apache configuration
+If you use one dedicated alias on your web server for this specific web app, follow the explanation below (virtual host creation with default config file).
+Else put the WSGI content of the default file in your virtual host definiton
+
 * For unsecure http (80)
 ```bash
 cp conf/digitalException_apache.conf.default conf/digitalException_apache.conf
@@ -104,5 +112,8 @@ Token access = TA
 * * Are you sure about your Cisco Spark TA?
 * * If you use this Cisco Spark TA with postman it works?
 
+## Report bug
+[issues](issues)
 
-Have fun
+
+Have fun ;)
