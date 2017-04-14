@@ -5,7 +5,6 @@
 # Copyright 2017 GPL - Guillain
 
 from flask import Flask, request, jsonify
-from tools import exeReq, wEvent
 from ciscoSpark import sparkInit, sparkMsg
 
 # Conf and create app
@@ -27,8 +26,6 @@ def bttn():
         roommsg += "* " + str(k) + " : " + str(v) + "\n"
     roommsg += '\n_Tips_: \n' + app.config['SPARK_MSG_TIPS'] + '\n'
     roommsg += '\n**Remaing task**: \n' + app.config['SPARK_MSG_ASK'] + '\n'
-
-    wEvent('bttn',roomname,"Button s data get",bttn)
 
     # Cisco Spark: room creation, add membership, post message
     return sparkInit(roomname,roommsg) 

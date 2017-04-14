@@ -15,6 +15,12 @@ If **escalation** word is enter an escalation process is launch and additionnal 
 * [bt.tn](https://my.bt.tn) (can provide simulator or physical button)
 * [Cisco Spark](https://web.ciscospark.com) (for free)
 
+## Features
+* Escalation: add new member when keyword 'escalation' or 'escalade' is enter
+* Close: close spacer when keyword 'close' is enter
+* Search: search in the room history the previous message and print the list with web url to click on and jump in the original space.
+* Display: print welcome and tips messages (to configure in the [settings.py](settings.py) file)
+
 ## PreRequisites
 Configuration is provided for Apache and WSGI server.
 But you can also get only the python with another web server, container...
