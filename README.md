@@ -16,11 +16,11 @@ If **escalation** word is enter an escalation process is launch and additionnal 
 * [Cisco Spark](https://web.ciscospark.com) (for free)
 
 ## Features
-* Escalation: add new member when keyword 'escalation' or 'escalade' is enter
-* Close: close spacer when keyword 'close' is enter
-* Search: search in the room history the previous message and print the list with web url to click on and jump in the original space.
-* Display: print welcome and tips messages (to configure in the [settings.py](settings.py) file)
-* Tips: random tips for new message
+* **Escalation:** add new member when keyword 'escalation' or 'escalade' is enter
+* **Close:** close spacer when keyword 'close' is enter
+* **Search:** search in the room history the previous message and print the list with web url to click on and jump in the original space.
+* **Display:** print welcome and tips messages (to configure in the [settings.py](settings.py) file)
+* **Tips:** random tips when people post new message
 
 ## PreRequisites
 Configuration is provided for Apache and WSGI server.
