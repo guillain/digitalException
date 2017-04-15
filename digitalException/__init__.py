@@ -5,7 +5,7 @@
 # Copyright 2017 GPL - Guillain
 
 from flask import Flask, request, jsonify
-from ciscoSpark import sparkInit, sparkMsg
+from ciscoSpark import sparkInit, sparkMsg, sparkPostMsg
 
 # Conf and create app
 app = Flask(__name__)
@@ -13,28 +13,35 @@ app.config.from_object(__name__)
 app.config.from_envvar('FLASK_SETTING')
 
 # HTTP Request -----------------------------------------------------------------------
+
+# Web the button is triggered, that's the scenario/space initialization
 @app.route('/bttn', methods=['POST'])
 def bttn():
     # Get bt.tn data & set Cisco Spark room params
     bttn = request.get_json(silent=True)
-
     roomname = str(app.config['SPARK_ROOM_NAME'] + " " + bttn.get('name'))
 
-    # Prepare Cisco Spark room message
+    # Cisco Spark: room creation, add membership
+    roomid = sparkInit(roomname) 
+
+    # Initial Spark room message
     roommsg = "New " + roomname + " created \n"
     for k, v in bttn.items():
         roommsg += "* " + str(k) + " : " + str(v) + "\n"
-    roommsg += '\n_Tips_: \n' + app.config['SPARK_MSG_TIPS'] + '\n'
-    roommsg += '\n**Remaing task**: \n' + app.config['SPARK_MSG_ASK'] + '\n'
+    welcome = sparkPostMsg(roomid,roommsg)
 
-    # Cisco Spark: room creation, add membership, post message
-    return sparkInit(roomname,roommsg) 
+    # Post remaning action
+    remaining = sparkPostMsg(roomid,app.config['SPARK_MSG_REMAINING_A'])
 
+    return ''
+
+# When the space received a message
 @app.route('/message', methods=['POST'])
 def message():
     # Get Spark msg event (webhook)
     json = request.json
     data = json.get('data')
+
 
     # Analyse the msg and perform action if necessary
     return sparkMsg(data.get('roomId'),data.get('id'))

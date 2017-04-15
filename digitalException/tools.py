@@ -12,13 +12,13 @@ app.config.from_envvar('FLASK_SETTING')
 
 # FUNCTIONs ---------------------------
 # Log function for event, log, ...
-def wEvent(module, id, msg, res, dmp):
-    print str("module:"+module+", id:"+id+", res:"+res+", msg:"+msg)
+def wEvent(module, id, msg, owner, res, dmp):
+    print str("module:"+module+", id:"+id+", owner: "+owner+", res:"+res+", msg:"+msg)
 
     if app.debug == True:
         print str(">>> DEBUG:"+str(dmp))
 
-    return exeReq("INSERT INTO events (module, id, msg, status) VALUES ('" + module + "','" + id + "','" + msg + "','" + res + "');")
+    return exeReq("INSERT INTO events (module, id, msg, owner, status) VALUES ('" + module + "','" + id + "','" + msg + "','" + owner + "','" + res + "');")
 
 def connection():
     conn = MySQLdb.connect(
