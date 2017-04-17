@@ -26,7 +26,7 @@ def sparkInit(roomname):
 
     # Cisco Spark room membership
     try:
-        membership = post_roommembership(app.config['SPARK_ACCESS_TOKEN'],room['id'],app.config['APP_MAIL'],True)
+        membership = post_roommembership(app.config['SPARK_ACCESS_TOKEN'],room['id'],app.config['APP_BOT'],True)
         wEvent('sparkInit',room['id'],"Admin membership added",'app','1',membership)
     except Exception as e:
         wEvent('sparkInit',room['id'],"Issue during admin membership add",'app','0',e)
@@ -58,13 +58,12 @@ def sparkPostMsg(roomid,msg):
         return 'KO'
     return 'OK'
 
-
 # Get Spark posted message, analysis it and if necessayr perform action
 def sparkMsg(roomid,msgid):
     # Get message
     try:
         msg = get_message(app.config['SPARK_ACCESS_TOKEN'],msgid)
-        msgtxt = msg.get('text').strip()
+        msgtxt = msg.get('text')
     except Exception as e:
         wEvent('sparkMsg',roomid,'Issue during get message data','app','0',e)
         return 'KO'
@@ -74,15 +73,15 @@ def sparkMsg(roomid,msgid):
         return sparkSearch(roomid,msgtxt)
 
     # Close request
-    elif (re.search('^close$',msgtxt)):
+    elif (re.search('^close',msgtxt)):
         return sparkClose(roomid)
 
     # Escalation request
-    elif (re.search('^escalation$',msgtxt)) or (re.search('^escalade$',msgtxt)):
+    elif (re.search('^escalation',msgtxt)) or (re.search('^escalade',msgtxt)):
         return sparkEscalation(roomid)
 
     # Tips message
-    elif ( not re.search('Tips',msgtxt) ):
+    elif ( msg.get('personEmail') != app.config['APP_BOT']) and (msg.get('personEmail') != app.config['APP_MAIL']):
         return sparkPostMsg(roomid, '_Tips_ : ' + random.choice( app.config['SPARK_MSG_TIPS'] ))
 
     # Record the message
@@ -102,7 +101,7 @@ def sparkSearch(roomid,text):
 
     # Search in the event table (history) the text msg
     try:
-        msgs = exeReq("SELECT id, msg FROM events WHERE msg LIKE '%" + msgtofind + "%' AND owner != 'app'")
+        msgs = exeReq("SELECT id, msg FROM events WHERE msg LIKE '%" + msgtofind + "%' AND owner != 'app' AND owner != '" + app.config['APP_MAIL'] + "'")
         wEvent('sparkSearch',roomid,msgtofind,'app','1',msgs)
     except Exception as e:
         wEvent('sparkSearch',roomid,msgtofind,'app','0',e)
