@@ -24,15 +24,23 @@ def sparkInit(roomname):
         wEvent('sparkInit',roomname,"Issue during room creation",'app','0',e)
         return 'KO'
 
+    # Cisco Spark room membership for the bot
+    #try:
+    #    membership = post_roommembership(app.config['SPARK_ACCESS_TOKEN'],room['id'],app.config['APP_BOT'],True)
+    #    wEvent('sparkInit',room['id'],"Admin membership added",'app','1',membership)
+    #except Exception as e:
+    #    wEvent('sparkInit',room['id'],"Issue during admin membership add",'app','0',e)
+    #    return 'KO'
+
     # Cisco Spark room membership
     try:
-        membership = post_roommembership(app.config['SPARK_ACCESS_TOKEN'],room['id'],app.config['APP_BOT'],True)
-        wEvent('sparkInit',room['id'],"Admin membership added",'app','1',membership)
+        membership = post_roommembership(app.config['SPARK_ACCESS_TOKEN'],room['id'],app.config['SPARK_USER_SHOP'],False)
+        wEvent('sparkInit',room['id'],"Membership added",'app','1',membership)
     except Exception as e:
-        wEvent('sparkInit',room['id'],"Issue during admin membership add",'app','0',e)
+        wEvent('sparkInit',room['id'],"Issue during membership add",'app','0',e)
         return 'KO'
     try:
-        membership = post_roommembership(app.config['SPARK_ACCESS_TOKEN'],room['id'],app.config['SPARK_ROOM_MAIL'],False)
+        membership = post_roommembership(app.config['SPARK_ACCESS_TOKEN'],room['id'],app.config['SPARK_USER_STRESS'],False)
         wEvent('sparkInit',room['id'],"Membership added",'app','1',membership)
     except Exception as e:
         wEvent('sparkInit',room['id'],"Issue during membership add",'app','0',e)
@@ -69,20 +77,24 @@ def sparkMsg(roomid,msgid):
         return 'KO'
 
     # Search request
-    if (re.search('^search',msgtxt)):
+    if (re.search('^[s|S]earch',msgtxt)):
         return sparkSearch(roomid,msgtxt)
 
     # Close request
-    elif (re.search('^close',msgtxt)):
+    elif (re.search('^[c|C]lose',msgtxt)) and (msg.get('personEmail') == app.config['SPARK_USER_STRESS']):
         return sparkClose(roomid)
 
     # Escalation request
-    elif (re.search('^escalation',msgtxt)) or (re.search('^escalade',msgtxt)):
-        return sparkEscalation(roomid)
+    elif (re.search('^[e|E]scalation',msgtxt)) or (re.search('^[e|E]scalade',msgtxt)):
+        return sparkEscalation(roomid,app.config['SPARK_USER_ESCALATION'])
+
+    # Validated by the Stress engineer
+    elif (re.search('^[v|V]alid',msgtxt)) and (msg.get('personEmail') == app.config['SPARK_USER_STRESS']):
+        return sparkAddDesigner(roomid,app.config['SPARK_USER_DESIGN'])
 
     # Tips message
-    elif ( msg.get('personEmail') != app.config['APP_BOT']) and (msg.get('personEmail') != app.config['APP_MAIL']):
-        return sparkPostMsg(roomid, '_Tips_ : ' + random.choice( app.config['SPARK_MSG_TIPS'] ))
+    #elif ( msg.get('personEmail') != app.config['APP_BOT']) and (msg.get('personEmail') != app.config['APP_MAIL']):
+    #    return sparkPostMsg(roomid, '_Tips_ : ' + random.choice( app.config['SPARK_MSG_TIPS'] ))
 
     # Record the message
     else:
@@ -130,9 +142,9 @@ def sparkClose(roomid):
     return 'OK'
 
 # Cisco Spark room escalation membership + message post
-def sparkEscalation(roomid):
+def sparkEscalation(roomid,mail):
     try:
-        membership = post_roommembership(app.config['SPARK_ACCESS_TOKEN'],roomid,app.config['SPARK_ROOM_MAIL_ESCALATION'],False)
+        membership = post_roommembership(app.config['SPARK_ACCESS_TOKEN'],roomid,mail,False)
         wEvent('sparkEscalation',roomid,"Escalation membership added",'app','1',membership)
     except Exception as e:
         wEvent('sparkEscalation',roomid,"Issue during escalation membership add",'app','0',e)
@@ -142,6 +154,22 @@ def sparkEscalation(roomid):
         wEvent('sparkEscalation',roomid,"Escalation message posted",'app','1',msg)
     except Exception as e:
         wEvent('sparkEscalation',roomid,"Issue during post escalation message",'app','0',e)
+
+    return 'OK'
+
+# Cisco Spark room escalation membership + message post
+def sparkAddDesigner(roomid, mail):
+    try:
+        membership = post_roommembership(app.config['SPARK_ACCESS_TOKEN'],roomid,mail,False)
+        wEvent('sparkEscalation',roomid,"Membership added",'app','1',membership)
+    except Exception as e:
+        wEvent('sparkEscalation',roomid,"Issue during membership add",'app','0',e)
+
+    try:
+        msg = post_markdown(app.config['SPARK_ACCESS_TOKEN'],roomid,app.config['SPARK_MSG_DESIGN_ADD'])
+        wEvent('sparkEscalation',roomid,"Add memebership message posted",'app','1',msg)
+    except Exception as e:
+        wEvent('sparkEscalation',roomid,"Issue during post of add memebership message",'app','0',e)
    
-    return ''
+    return 'OK'
 

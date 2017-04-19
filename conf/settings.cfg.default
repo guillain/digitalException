@@ -4,7 +4,8 @@
 # Author: Guillain (guillain@gmail.com)
 # Copyright 2017 GPL - Guillain
 
-APP_MAIL=''
+APP_MAIL='guillain@gmail.com'
+APP_BOT='digitalException@sparkbot.io'
 
 # MySQL conf
 MYSQL_USER='root'
@@ -13,14 +14,20 @@ MYSQL_HOST='localhost'
 MYSQL_DB='digitalException'
 
 # Cisco Spark APP conf
-SPARK_ROOM_MAIL=''
 SPARK_ROOM_NAME='Digital Exception'
-SPARK_ROOM_MAIL_ESCALATION=''
+
+SPARK_USER_SHOP=''
+SPARK_USER_STRESS=''
+SPARK_USER_DESIGN=''
+SPARK_USER_ESCALATION=''
+
 SPARK_ACCESS_TOKEN=''
 SPARK_WEBHOOK=''
 SPARK_SCOPE='spark:rooms_read spark:rooms_write spark:messages_read spark:messages_write'
 SPARK_API_URL='https://api.ciscospark.com/v1'
+
 SPARK_MSG_ESCLATION='**Escalation ongoing**'
+SPARK_MSG_DESIGN_ADD='**Step validated**, Designer added'
 SPARK_MSG_TIPS=['Remember to enter **escalation** to launch the escalation process','When the job is done, remember to close the room with **close** keyword','You can use the **search _phrase that you search_** function to find in the previous exchanged messages']
 SPARK_MSG_REMAINING_A='**Remaining task**: \n* Take a picture of the defaulty piece (you can use your webcame to catpure it) \n* Describe the issue'
 SPARK_MSG_REMAINING_B='**Bot support**'
