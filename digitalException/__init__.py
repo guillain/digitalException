@@ -12,6 +12,14 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.from_envvar('FLASK_SETTING')
 
+# Create Analytics connector if analytics feature is activated
+if( app.config['ANALYTICS'] == 'True'):
+  import logging, sys, logstash, datetime
+
+  analytics = logging.getLogger('python-logstash-logger')
+  analytics.setLevel(logging.INFO)
+  analytics.addHandler(logstash.TCPLogstashHandler(app.config['ANALYTICS_HOST'], app.config['ANALYTICS_PORT'], version=app.config['ANALYTICS_VERSION']))
+
 # HTTP Request -----------------------------------------------------------------------
 
 # Web the button is triggered, that's the scenario/space initialization
@@ -42,6 +50,21 @@ def message():
     json = request.json
     data = json.get('data')
 
+    # If Analytics feaure activated
+    if( app.config['ANALYTICS'] == 'True'):
+      print 'Analytics data push'
+      extra = {
+        'timestamp': str(datetime.datetime.utcnow()),
+        'message': data.get('text'),
+        'from': data.get('personEmail'),
+        'spaceid': data.get('roomId'),
+        'spacename': data.get('roomTitle'),
+        'level': 'info',
+        'type': 'bot'
+      }
+      #analytics.info(json, extra=extra)
+      analytics.info(json, extra={'type': 'bot'})
+      #data.get('text'), extra=extra)
 
     # Analyse the msg and perform action if necessary
     return sparkMsg(data.get('roomId'),data.get('id'))

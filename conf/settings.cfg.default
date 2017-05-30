@@ -13,6 +13,12 @@ MYSQL_PASSWORD=''
 MYSQL_HOST='localhost'
 MYSQL_DB='digitalException'
 
+# Analytics setting
+ANALYTICS='false'
+ANALYTICS_HOST='164.177.186.244'
+ANALYTICS_PORT='5055'
+ANALYTICS_VERSION='1'
+
 # Cisco Spark APP conf
 SPARK_ROOM_NAME='Digital Exception'
 
