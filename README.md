@@ -3,7 +3,7 @@ Cisco Spark integration with SigFox button
 
 ## What is it?
 * Bt.tn / Sigfox button as trigger
-* ![](doc/button.png)
+* <img src="doc/button.png" height="300px">
 * Cisco Spark as Space for human and data
 * ![](doc/chatbot.png)
 * Local DB for historical and data post processing treatment... analytics ready :)
