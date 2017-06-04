@@ -53,18 +53,7 @@ def message():
     # If Analytics feaure activated
     if( app.config['ANALYTICS'] == 'True'):
       print 'Analytics data push'
-      extra = {
-        'timestamp': str(datetime.datetime.utcnow()),
-        'message': data.get('text'),
-        'from': data.get('personEmail'),
-        'spaceid': data.get('roomId'),
-        'spacename': data.get('roomTitle'),
-        'level': 'info',
-        'type': 'bot'
-      }
-      #analytics.info(json, extra=extra)
       analytics.info(json, extra={'type': 'bot'})
-      #data.get('text'), extra=extra)
 
     # Analyse the msg and perform action if necessary
     return sparkMsg(data.get('roomId'),data.get('id'))
