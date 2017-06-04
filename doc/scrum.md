@@ -1,13 +1,16 @@
-Scrum
+# Scrum
+
+## People
 * Product Owner: Guillain
-	Scrum Master: Bernard
+* Scrum Master: Bernard
+
 Squad:
 * SEAP Hyper Collaboration: Guillaume
 * ShellBot: Bernard
 * Commercial: Sandrine
 * Cisco Spark: Guillain
 
-[Stories]
+## Stories
 1/ When button is triggered Cisco Spark space is created
 * Days: 3
 * Priority: high
