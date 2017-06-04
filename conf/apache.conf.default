@@ -1,0 +1,32 @@
+# Target: apache configuration file
+# Version: 0.1
+# Date: 2017/02/04
+# Author: Guillain (guillain@gmail.com)
+# Copyright 2017 GPL - Guillain
+
+<VirtualHost *:80>
+    ServerName ServerName@ServerName.com
+    ServerAdmin admin@ServerName.com
+    ServerSignature Off
+
+    ErrorLog /var/www/digitalException/log/error.log
+    CustomLog /var/www/digitalException/log/access.log combined
+    LogLevel info
+
+    AddHandler wsgi-script .wsg
+
+    WSGIDaemonProcess digitalException user=www-data group=www-data threads=10 display-name=%{GROUP}
+    WSGIProcessGroup digitalException
+    WSGIScriptAlias / /var/www/digitalException/digitalException.wsgi
+    WSGIScriptReloading On
+
+    <Directory /var/www/digitalException>
+        WSGIProcessGroup digitalException
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+	Require all granted
+    </Directory>
+</VirtualHost>
+
+
