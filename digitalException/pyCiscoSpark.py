@@ -281,6 +281,12 @@ def post_webhook(at, name, targetUrl, resource, event, filter):
     resp = requests.post(url=_url('/webhooks'), json=payload, headers=headers)
     return code(resp)
 
+def post_webhook_all(at, name, targetUrl, resource, event):
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
+    payload = {'name': name, 'targetUrl': targetUrl, 'resource': resource, 'event': event}
+    resp = requests.post(url=_url('/webhooks'), json=payload, headers=headers)
+    return code(resp)
+
 # PUTS
 def put_room(at, roomId, title='title'):
     headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
