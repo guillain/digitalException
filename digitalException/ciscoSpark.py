@@ -76,6 +76,10 @@ def sparkMsg(roomid,msgid):
         wEvent('sparkMsg',roomid,'Issue during get message data','app','0',e)
         return 'KO'
 
+    # Remove the eventual bot name as first word
+    bot_name = app.config['APP_BOT'].split("@")[0]
+    msgtxt = msgtxt.split(bot_name, 1)[1]
+
     # Search request
     if (re.search('^[s|S]earch',msgtxt)):
         return sparkSearch(roomid,msgtxt)
@@ -90,7 +94,7 @@ def sparkMsg(roomid,msgid):
 
     # Validated by the Stress engineer
     elif (re.search('^[v|V]alid',msgtxt)) and (msg.get('personEmail') == app.config['SPARK_USER_STRESS']):
-        return sparkAddDesigner(roomid,app.config['SPARK_USER_DESIGN'])
+        return sparkAddPeople(roomid,app.config['SPARK_USER_DESIGN'])
 
     # Tips message
     #elif ( msg.get('personEmail') != app.config['APP_BOT']) and (msg.get('personEmail') != app.config['APP_MAIL']):
@@ -135,6 +139,7 @@ def sparkSearch(roomid,text):
 # Cisco Spark room closure
 def sparkClose(roomid):
     try:
+        sparkRemovePeople(roomid,app.config['APP_BOT'])
         room = del_room(app.config['SPARK_ACCESS_TOKEN'],roomid)
         wEvent('sparkClose',roomid,"Room deleted",'app','1',room)
     except Exception as e:
@@ -157,19 +162,42 @@ def sparkEscalation(roomid,mail):
 
     return 'OK'
 
-# Cisco Spark room escalation membership + message post
-def sparkAddDesigner(roomid, mail):
+# Cisco Spark room adds membership + post message
+def sparkAddPeople(roomid, mail):
     try:
         membership = post_roommembership(app.config['SPARK_ACCESS_TOKEN'],roomid,mail,False)
-        wEvent('sparkEscalation',roomid,"Membership added",'app','1',membership)
+        wEvent('sparkAddPeople',roomid,"Membership added",'app','1',membership)
     except Exception as e:
-        wEvent('sparkEscalation',roomid,"Issue during membership add",'app','0',e)
+        wEvent('sparkAddPeople',roomid,"Issue during membership add",'app','0',e)
 
     try:
         msg = post_markdown(app.config['SPARK_ACCESS_TOKEN'],roomid,app.config['SPARK_MSG_DESIGN_ADD'])
-        wEvent('sparkEscalation',roomid,"Add memebership message posted",'app','1',msg)
+        wEvent('sparkAddPeople',roomid,"Add membership message posted",'app','1',msg)
     except Exception as e:
-        wEvent('sparkEscalation',roomid,"Issue during post of add memebership message",'app','0',e)
+        wEvent('sparkAddPeople',roomid,"Issue during post of add membership message",'app','0',e)
    
     return 'OK'
+
+# Cisco Spark room removes people + post message
+def sparkRemovePeople(roomid, mail):
+    try:
+        membership = del_people(app.config['SPARK_ACCESS_TOKEN'],roomid)
+        wEvent('sparkRemovePeople',roomid,"Membership deleted",'app','1',membership)
+    except Exception as e:
+        wEvent('sparkRemovePeople',roomid,"Issue during membership delete",'app','0',e)
+
+    try:
+        msg = post_markdown(app.config['SPARK_ACCESS_TOKEN'],roomid,app.config['SPARK_MSG_DESIGN_ADD'])
+        wEvent('sparkremovePeople',roomid,"Add membership message posted",'app','1',msg)
+    except Exception as e:
+        wEvent('sparkRemovePeople',roomid,"Issue during post of delete membership message",'app','0',e)
+
+    return 'OK'
+
+# Create webhook listener
+def sparkWebhook(roomname, roomid=None):
+    if roomid is not None:
+        post_webhook(app.config['SPARK_ACCESS_TOKEN'], roomname, app.config['SPARK_WEBHOOK']+'/message', 'messages', 'all', str('roomId='+roomid))
+    else:
+        post_webhook(app.config['SPARK_ACCESS_TOKEN'], roomname, app.config['SPARK_WEBHOOK']+'/message', 'messages', 'all', None)
 
